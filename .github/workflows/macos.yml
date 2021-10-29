@@ -71,3 +71,13 @@ jobs:
 
     - name: Install
       run: sudo make install
+
+    - name: Pack files
+      run: |
+        cd ..
+        zip -r Release.zip owntone-server
+      
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.13
+      with: 
+        files: Release.zip
