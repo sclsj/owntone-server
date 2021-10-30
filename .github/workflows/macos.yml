@@ -19,7 +19,7 @@ jobs:
         git clone https://github.com/libinotify-kqueue/libinotify-kqueue
         cd libinotify-kqueue
         autoreconf -fvi
-        ./configure
+        ./configure --pkg-config-flags=--static
         make
         sudo make install
         cd ..
@@ -30,7 +30,7 @@ jobs:
         tar xzf sqlite-autoconf-3310100.tar.gz
         cd sqlite-autoconf-3310100
         export CFLAGS='-DSQLITE_ENABLE_UNLOCK_NOTIFY=1'
-        ./configure
+        ./configure --pkg-config-flags=--static
         make
         sudo make install
         cd ..
@@ -49,7 +49,7 @@ jobs:
     - name: Configure
       run: |
         autoreconf -fi
-        ./configure --enable-chromecast --enable-lastfm --with-pulseaudio --prefix=/usr/local/Cellar/owntone/28.2
+        ./configure --enable-chromecast --enable-lastfm --with-pulseaudio --prefix=/usr/local/Cellar/owntone/28.2  --pkg-config-flags=--static
     - name: Build
       run: |
         # Without setting these env vars the build fails with "fatal error: 'openssl/ssl.h' file not found"
@@ -64,18 +64,16 @@ jobs:
     - name: Pack files
       run: |
         cd ..
-        zip -r Release.zip owntone-server
-        zip -r test.zip /usr/local/
-        zip -r test1.zip /usr/local/Cellar/owntone/28.2
+        zip -r owntonesrc.zip owntone-server
+        zip -r owntonebin.zip /usr/local/Cellar/owntone/28.2
         pwd
         ls -l
-        mv Release.zip test.zip test1.zip owntone-server/
+        mv *.zip owntone-server/
       
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.13
       with: 
         files: |
-          Release.zip
-          test.zip
-          test1.zip
-        tag_name: 132
+          owntonesrc.zip
+          owntonebin.zip
+        tag_name: 348
