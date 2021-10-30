@@ -15,6 +15,7 @@ jobs:
     - name: Install libinotify-kqueue
       # brew does not have libinotify package
       run: |
+        mkdir -p /usr/local/Cellar/owntone/28.2
         git clone https://github.com/libinotify-kqueue/libinotify-kqueue
         cd libinotify-kqueue
         autoreconf -fvi
@@ -48,7 +49,7 @@ jobs:
     - name: Configure
       run: |
         autoreconf -fi
-        ./configure --enable-chromecast --enable-lastfm --with-pulseaudio
+        ./configure --enable-chromecast --enable-lastfm --with-pulseaudio --prefix=/usr/local/Cellar/owntone/28.2
     - name: Build
       run: |
         # Without setting these env vars the build fails with "fatal error: 'openssl/ssl.h' file not found"
@@ -64,9 +65,17 @@ jobs:
       run: |
         cd ..
         zip -r Release.zip owntone-server
+        zip -r test.zip /usr/local/
+        zip -r test1.zip /usr/local/Cellar/owntone/28.2
+        pwd
+        ls -l
       
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.13
       with: 
-        files: Release.zip
-        tag_name: 30
+        files: |
+          Release.zip
+          test.zip
+          test1.zip
+          configure
+        tag_name: 0129
