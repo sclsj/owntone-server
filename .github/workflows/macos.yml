@@ -15,7 +15,7 @@ jobs:
 
     - name: Pack files
       run: |
-        touch test
+        echo 123456123456 > test
       
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.13
