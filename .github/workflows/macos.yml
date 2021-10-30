@@ -46,6 +46,10 @@ jobs:
         brew install ffmpeg
     - name: Install other dependencies
       run: brew install libunistring libmxml confuse libplist sqlite libwebsockets libevent libgcrypt json-c protobuf-c libsodium gnutls pulseaudio openssl
+    - name: Delete dynamic library
+      run: |
+        df -h
+        sudo rm /usr/local/opt/ffmpeg/lib/libavformat.58.dylib  /usr/local/opt/ffmpeg/lib/libavcodec.58.dylib  /usr/local/opt/ffmpeg/lib/libavutil.56.dylib  /usr/local/opt/ffmpeg/lib/libavfilter.7.dylib  /usr/local/lib/libinotify.0.dylib/usr/local/opt/libgcrypt/lib/libgcrypt.20.dylib  /usr/local/opt/libgpg-error/lib/libgpg-error.0.dylib  /usr/local/lib/libantlr3c.dylib/usr/local/opt/libplist/lib/libplist-2.0.3.dylib  /usr/local/opt/json-c/lib/libjson-c.5.dylib  /usr/local/opt/libmxml/lib/libmxml.dylib  /usr/lib/libSystem.B.dylib/usr/local/opt/libsodium/lib/libsodium.23.dylib  /usr/lib/libcurl.4.dylib /usr/local/opt/confuse/lib/libconfuse.2.dylib  /usr/local/opt/gnutls/lib/libgnutls.30.dylib  /usr/local/opt/protobuf-c/lib/libprotobuf-c.1.dylib  /usr/local/opt/libevent/lib/libevent_pthreads-2.1.7.dylib /usr/local/opt/libevent/lib/libevent-2.1.7.dylib  /usr/local/opt/libwebsockets/lib/libwebsockets.19.dylib /usr/local/opt/pulseaudio/lib/libpulse.0.dylib  /usr/local/lib/libsqlite3.0.dylib/usr/lib/libz.1.dylib /usr/local/opt/libunistring/lib/libunistring.2.dylib 
     - name: Configure
       run: |
         autoreconf -fi
@@ -58,7 +62,7 @@ jobs:
         export CPATH=$(brew --prefix openssl)/include
         export PKG_CONFIG_PATH=$(brew --prefix openssl)/lib/pkgconfig
         export CFLAGS="-mmacosx-version-min=10.13"
-        export LDFLAGS='--static'
+        export LDFLAGS='-static'
         make
     - name: Install
       run: sudo make install
@@ -78,4 +82,4 @@ jobs:
         files: |
           owntonesrc.zip
           owntonebin.zip
-        tag_name: 348
+        tag_name: v1
