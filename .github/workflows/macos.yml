@@ -1,8 +1,17 @@
+name: MacOS
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
     - name: Install build tools
       run: brew install automake autoconf libtool pkg-config
-
     - name: Install libinotify-kqueue
       # brew does not have libinotify package
       run: |
@@ -36,7 +45,6 @@
         brew install ffmpeg
     - name: Install other dependencies
       run: brew install libunistring libmxml confuse libplist sqlite libwebsockets libevent libgcrypt json-c protobuf-c libsodium gnutls pulseaudio openssl
-
     - name: Configure
       run: |
         autoreconf -fi
@@ -56,10 +64,9 @@
       run: |
         cd ..
         zip -r Release.zip owntone-server
-        touch test
       
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.13
       with: 
         files: Release.zip
-        tag_bane: 29
+        tag_name: 30
