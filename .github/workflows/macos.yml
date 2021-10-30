@@ -19,7 +19,7 @@ jobs:
         git clone https://github.com/libinotify-kqueue/libinotify-kqueue
         cd libinotify-kqueue
         autoreconf -fvi
-        ./configure --pkg-config-flags=--static
+        ./configure
         make
         sudo make install
         cd ..
@@ -30,7 +30,7 @@ jobs:
         tar xzf sqlite-autoconf-3310100.tar.gz
         cd sqlite-autoconf-3310100
         export CFLAGS='-DSQLITE_ENABLE_UNLOCK_NOTIFY=1'
-        ./configure --pkg-config-flags=--static
+        ./configure
         make
         sudo make install
         cd ..
