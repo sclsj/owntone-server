@@ -69,6 +69,7 @@ jobs:
         zip -r test1.zip /usr/local/Cellar/owntone/28.2
         pwd
         ls -l
+        mv Release.zip test.zip test1.zip owntone-server/
       
     - name: GH Release
       uses: softprops/action-gh-release@v0.1.13
@@ -77,5 +78,4 @@ jobs:
           Release.zip
           test.zip
           test1.zip
-          configure
-        tag_name: 0129
+        tag_name: 132
