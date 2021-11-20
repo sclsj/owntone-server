@@ -38,6 +38,11 @@ jobs:
       run: |
         export CFLAGS="-mmacosx-version-min=10.13"
         brew reinstall --build-from-source gperf
+        pwd
+        ls -l
+        cd owntone-server/
+        pwd
+        ls -l
         chmod +x ./scripts/antlr35_install.sh
         ./scripts/antlr35_install.sh -y -p /usr/local
     - name: Install ffmpeg
