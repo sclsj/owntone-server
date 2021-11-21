@@ -56,7 +56,7 @@ jobs:
       run: |
         export CFLAGS="-mmacosx-version-min=10.13"
         autoreconf -fi
-        ./configure --enable-chromecast --enable-lastfm --with-pulseaudio
+        ./configure --enable-chromecast --enable-lastfm --with-pulseaudio --prefix=/usr/local/Cellar/owntone/28.2
     - name: Build
       run: |
         # Without setting these env vars the build fails with "fatal error: 'openssl/ssl.h' file not found"
@@ -70,4 +70,24 @@ jobs:
       run: |
         export CFLAGS="-mmacosx-version-min=10.13"
         sudo make install
+    - name: macpack
+      run: |
+        pip3 install macpack
+        macpack /usr/local/Cellar/owntone/28.2/sbin/owntone
+    - name: Pack files
+      run: |
+        cd ..
+        zip -r owntonesrc.zip owntone-server
+        zip -r owntonebin.zip /usr/local/Cellar/owntone/28.2
+        pwd
+        ls -l
+        mv *.zip owntone-server/
+      
+    - name: GH Release
+      uses: softprops/action-gh-release@v0.1.13
+      with: 
+        files: |
+          owntonesrc.zip
+          owntonebin.zip
+        tag_name: 11.21-13.18
         
