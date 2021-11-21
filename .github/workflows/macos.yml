@@ -73,7 +73,7 @@ jobs:
     - name: macpack
       run: |
         pip3 install macpack
-        macpack /usr/local/Cellar/owntone/28.2/sbin/owntone
+        sudo macpack /usr/local/Cellar/owntone/28.2/sbin/owntone
     - name: Pack files
       run: |
         cd ..
